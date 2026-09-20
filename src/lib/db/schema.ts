@@ -1,0 +1,8 @@
+import { boolean, integer, pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+export const purchaseTierEnum = pgEnum("purchase_tier", ["pro"]);
+export const purchaseStatusEnum = pgEnum("purchase_status", ["completed", "partially_refunded", "refunded"]);
+export const users = pgTable("users", { id: text("id").primaryKey(), email: varchar("email", { length: 255 }).notNull().unique(), emailVerified: boolean("email_verified").notNull().default(false), name: text("name"), image: text("image"), githubUsername: text("github_username"), createdAt: timestamp("created_at").notNull().defaultNow(), updatedAt: timestamp("updated_at").notNull().defaultNow() });
+export const purchases = pgTable("purchases", { id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()), userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }), stripeCheckoutSessionId: text("stripe_checkout_session_id").notNull().unique(), stripeCustomerId: text("stripe_customer_id"), stripePaymentIntentId: text("stripe_payment_intent_id"), tier: purchaseTierEnum("tier").notNull(), status: purchaseStatusEnum("status").notNull().default("completed"), githubAccessGranted: boolean("github_access_granted").notNull().default(false), githubInvitationId: text("github_invitation_id"), amount: integer("amount").notNull(), currency: text("currency").notNull().default("usd"), purchasedAt: timestamp("purchased_at").notNull().defaultNow(), createdAt: timestamp("created_at").notNull().defaultNow(), updatedAt: timestamp("updated_at").notNull().defaultNow() });
+export type User = typeof users.$inferSelect;
+export type Purchase = typeof purchases.$inferSelect;
+export type NewPurchase = typeof purchases.$inferInsert;
