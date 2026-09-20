@@ -1,0 +1,18 @@
+{
+  "name": "saas-payments",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "postCreateCommand": "curl -fsSL https://bun.sh/install | bash && echo 'export PATH=\"$HOME/.bun/bin:$PATH\"' >> ~/.bashrc",
+  "forwardPorts": [3000, 8288],
+  "portsAttributes": {
+    "3000": { "label": "App server", "onAutoForward": "openPreview" },
+    "8288": { "label": "Inngest dashboard", "onAutoForward": "notify" }
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md"]
+    }
+  }
+}
