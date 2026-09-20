@@ -1,0 +1,30 @@
+{
+  "name": "saas-payments",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/server/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:migrate": "drizzle-kit migrate",
+    "seed:stripe": "bun run src/lib/payments/seed.ts",
+    "inngest:dev": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.0",
+    "@react-email/components": "^0.0.31",
+    "drizzle-orm": "^0.36.0",
+    "hono": "^4.6.0",
+    "inngest": "^3.27.0",
+    "react": "^18.3.1",
+    "resend": "^4.0.0",
+    "stripe": "^17.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.28.0",
+    "@types/react": "^18.3.12",
+    "typescript": "^5.6.3"
+  }
+}
